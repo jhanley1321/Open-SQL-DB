@@ -5,6 +5,8 @@ The TiemscaleDB and PostgreSQL databas.
 
 
 # Running the App
+First, make sure that you edit the .env file. Remove the .example at the end and add your password in the .env file before you start. 
+
 To start the docker container using Docker Compose run:
 ```
 docker-compose up -d
@@ -42,6 +44,8 @@ docker volume rm timescale_data
 
 
 # How To Use
+
+
 For now, you will have to manually set up your own solution if you want to use this yourself now. There will be a seperate repo with a sepreate container for mantaining data pipelines that will hanlde the data into this database. Note that there may be isntances where other repos will connect direclty to this one as well. 
 
 
