@@ -1,0 +1,9 @@
+# c:\Data_Tools\Open_SQL_DB\.gitignore
+.env
+
+# Environment variables
+.env
+
+
+# Docker volume
+timescale_data/

@@ -1,0 +1,18 @@
+# c:\Data_Tools\Open_SQL_DB\docker-compose.yml
+version: '3.8'
+services:
+  timescaledb:
+    image: timescale/timescaledb:latest-pg15
+    container_name: timescaledb
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}  # Set the database password using an environment variable
+    ports:
+      - "5432:5432"  # Map the container's port 5432 to the host's port 5432
+    volumes:
+      - timescale_data:/var/lib/postgresql/data  # Persistent data storage
+      - ./database/init:/docker-entrypoint-initdb.d  # Initialization scripts
+    restart: unless-stopped  # Restart the container unless it is explicitly stopped
+
+volumes:
+  timescale_data:
+    name: timescale_data  # Named volume for data persistence
