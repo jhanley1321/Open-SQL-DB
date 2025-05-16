@@ -7,21 +7,6 @@ The TiemscaleDB and PostgreSQL databas.
 # Running the App
 First, make sure that you edit the .env file. Remove the .example at the end and add your password in the .env file before you start. 
 
-To start the docker container using Docker Compose run:
-```
-docker-compose up -d
-```
-
-To verify the container is running:
-```
-docker ps
-```
-you should see an entry called timescaledb container.
-
-To connect to the Timescaledb container, run 
-```
-docker exec -it timescaledb psql -U postgres -d postgres
-```
 
 To run the .bat file use:
 ```
