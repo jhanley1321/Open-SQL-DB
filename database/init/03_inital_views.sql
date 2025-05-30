@@ -54,7 +54,7 @@ JOIN
     public.exchanges e ON ohlcv.exchange_id = e.exchange_id;
 
 
--- Create View for Decomposition  (Move to datewarehouse later)
+-- Create View for Decomposition  (Move to datewarehouse later), residual currenlty bugged 
 CREATE OR REPLACE VIEW crypto.vw_ohlcv_daily_decomposed AS
 WITH moving_averages AS (
     -- Calculate centered moving average (Trend)

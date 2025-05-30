@@ -1,5 +1,5 @@
 # Open SQL DB
-The TiemscaleDB and PostgreSQL databas. 
+The TiemscaleDB and PostgreSQL database. 
 
 
 
@@ -20,7 +20,7 @@ docker stop timescaledb
 docker rm timescaledb
 ```
 
-For a compelte fresh start run
+For a complete fresh start run
 ```
 docker stop timescaledb
 docker rm timescaledb
@@ -31,7 +31,7 @@ docker volume rm timescale_data
 # How To Use
 
 
-For now, you will have to manually set up your own solution if you want to use this yourself now. There will be a seperate repo with a sepreate container for mantaining data pipelines that will hanlde the data into this database. Note that there may be isntances where other repos will connect direclty to this one as well. 
+For now, you will have to manually set up your own solution if you want to use this yourself now. There will be a separate repo with a separate container for maintaining data pipelines that will handle the data into this database. Note that there may be instances where other repos will connect directly to this one as well. 
 
 
 # Purpose

@@ -1,0 +1,15 @@
+               List of schemas
+           Name           |       Owner       
+--------------------------+-------------------
+ _timescaledb_cache       | postgres
+ _timescaledb_catalog     | postgres
+ _timescaledb_config      | postgres
+ _timescaledb_debug       | postgres
+ _timescaledb_functions   | postgres
+ _timescaledb_internal    | postgres
+ crypto                   | postgres
+ public                   | pg_database_owner
+ timescaledb_experimental | postgres
+ timescaledb_information  | postgres
+(10 rows)
+
