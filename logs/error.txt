@@ -1,0 +1,1 @@
+.env missing in c:\Data Tools\Open-SQL-DB\
