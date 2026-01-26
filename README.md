@@ -3,8 +3,14 @@ The TiemscaleDB and PostgreSQL database.
 
 
 
+# Running The App (Recommended) 
+You now only need to run:
+```
+python main.py 
+```
+The file will spin up the docker container for you by running the .bat file.
 
-# Running the App
+# Running The Database from the .bat file 
 First, make sure that you edit the .env file. Remove the .example at the end and add your password in the .env file before you start. 
 
 

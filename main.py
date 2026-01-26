@@ -13,11 +13,11 @@ from sql_connector import SQLConnector
 def main():
     DockerRunner().run()
 
-    # sql = SQLConnector()
-    # sql.connect()
+    sql = SQLConnector()
+    sql.connect()
 
-    # rows = sql.query("SELECT * FROM public.exchanges;")
-    # print(rows)
+    rows = sql.query()
+    print(rows)
 
 
 if __name__ == "__main__":

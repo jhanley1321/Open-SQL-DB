@@ -45,3 +45,27 @@ class SQLConnector:
         with self.engine.connect() as connection:
             connection.execute(text("SELECT 1"))
         print("Database connection successful")
+
+
+    def query(self, query: str = 'SELECT * FROM exchanges', **kwargs: Any) -> list:
+        with self.engine.connect() as connection:
+            result = connection.execute(text(query))
+            rows = result.fetchall()
+            return rows
+
+    def query_full(self, query: str = 'SELECT * FROM exchanges', **kwargs: Any) -> list[Dict[str, Any]]:
+        with self.engine.connect() as connection:
+            result = connection.execute(text(query))
+            rows = result.fetchall()
+            columns = result.keys()
+            return [dict(zip(columns, row)) for row in rows]
+  
+
+    def read_sql_to_df(self, table_name, schema=None, **kwargs):
+        print('Fetching SQL query to DataFrame...')
+        with self.engine.connect() as connection:
+            df = pd.read_sql_table(table_name, con=connection, schema=schema)
+        # print(df.head(10))
+        if self.manager is not None:
+            self.manager.df_sql = df
+        return df
