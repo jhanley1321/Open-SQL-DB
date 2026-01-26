@@ -98,7 +98,8 @@ echo Done.
 echo Project root: "%PROJECT_ROOT%"
 echo Logs written to: "%PROJECT_ROOT%logs\"
 echo.
-pause
+REM You can replace the exit /b 0 if you want with pause if you want to force a button press to move forward
+exit /b 0
 
 :end
 endlocal
