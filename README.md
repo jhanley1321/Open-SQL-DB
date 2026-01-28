@@ -48,6 +48,7 @@ This Timescale DB and PostgreSQL database will store orders, tickers, exchanges,
 * Store data for exchanges, tickers, and asset type.
 * Store OHLCV daily table using Timescale DB for better performance and scalability. 
 * Docker container and .bat script for quick and easy setup.
+* SQL Connector is now included within this repo; you can now read queries here 
 
 
 
