@@ -1,3 +1,4 @@
+import pandas as pd
 import ccxt
 
 
@@ -28,3 +29,46 @@ class CCXTETL:
 
         print(f"Connected to exchange: {exchange_id}")
         print(f"Markets loaded: {len(self.exchange.markets)}")
+
+
+
+    def get_ohlcv_df(
+        self,
+        symbol: str = "BTC/USDT",
+        timeframe: str = "1d",
+        since: int | None = None,   # milliseconds since epoch (optional)
+        limit: int = 365
+    ) -> pd.DataFrame:
+        """
+        Fetch OHLCV data from the connected exchange and return as a pandas DataFrame.
+
+        CCXT returns rows: [timestamp_ms, open, high, low, close, volume]
+        """
+        if self.exchange is None:
+            raise RuntimeError("No exchange connected. Call connect_exchange() first.")
+
+        rows = self.exchange.fetch_ohlcv(
+            symbol=symbol,
+            timeframe=timeframe,
+            since=since,
+            limit=limit
+        )
+
+        if not rows:
+            raise RuntimeError(
+                f"No OHLCV returned for exchange={self.exchange_id}, symbol={symbol}, timeframe={timeframe}"
+            )
+
+        df = pd.DataFrame(rows, columns=["timestamp", "open", "high", "low", "close", "volume"])
+
+        # timestamp to datetime (UTC)
+        df["timestamp"] = pd.to_datetime(df["timestamp"], unit="ms", utc=True)
+
+        # ensure numeric columns are numeric
+        for c in ["open", "high", "low", "close", "volume"]:
+            df[c] = pd.to_numeric(df[c], errors="coerce")
+
+        # (optional) set index
+        df.set_index("timestamp", inplace=True)
+
+        return df

@@ -16,9 +16,12 @@ def main():
     rows = sql.query()
     print(rows)
 
-    exchanges = CCXTETL()
+    exc = CCXTETL()
     
-    exchanges.connect_exchange()
+    exc.connect_exchange()
+    df = exc.get_ohlcv_df(symbol="BTC/USDT", timeframe="1d", limit=None)
+    print(df.head())
+    print("rows:", len(df))
 
 
 if __name__ == "__main__":
