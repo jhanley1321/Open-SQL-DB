@@ -36,39 +36,52 @@ class CCXTETL:
         self,
         symbol: str = "BTC/USDT",
         timeframe: str = "1d",
-        since: int | None = None,   # milliseconds since epoch (optional)
-        limit: int = 365
+        since: int | None = None,      # ms epoch; set to get less history
+        page_size: int = 10000,         # per-request page size (exchange will cap anyway)
+        max_batches: int | None = None # set to 1/2/etc to intentionally get less
     ) -> pd.DataFrame:
         """
-        Fetch OHLCV data from the connected exchange and return as a pandas DataFrame.
-
-        CCXT returns rows: [timestamp_ms, open, high, low, close, volume]
+        Fetch OHLCV in batches until exhausted (or until max_batches is hit).
+        Adds a simple symbol column so the DF is self-identifying.
         """
         if self.exchange is None:
             raise RuntimeError("No exchange connected. Call connect_exchange() first.")
 
-        rows = self.exchange.fetch_ohlcv(
-            symbol=symbol,
-            timeframe=timeframe,
-            since=since,
-            limit=limit
-        )
+        all_rows = []
+        batches = 0
+        since_ms = since
 
-        if not rows:
-            raise RuntimeError(
-                f"No OHLCV returned for exchange={self.exchange_id}, symbol={symbol}, timeframe={timeframe}"
+        while True:
+            rows = self.exchange.fetch_ohlcv(
+                symbol=symbol,
+                timeframe=timeframe,
+                since=since_ms,
+                limit=page_size,
             )
 
-        df = pd.DataFrame(rows, columns=["timestamp", "open", "high", "low", "close", "volume"])
+            if not rows:
+                break
 
-        # timestamp to datetime (UTC)
+            all_rows.extend(rows)
+
+            # move forward to the next candle
+            since_ms = rows[-1][0] + 1
+
+            batches += 1
+            if max_batches is not None and batches >= max_batches:
+                break
+
+        if not all_rows:
+            raise RuntimeError(f"No OHLCV returned for {self.exchange_id} {symbol} {timeframe}")
+
+        df = pd.DataFrame(all_rows, columns=["timestamp", "open", "high", "low", "close", "volume"])
         df["timestamp"] = pd.to_datetime(df["timestamp"], unit="ms", utc=True)
 
-        # ensure numeric columns are numeric
-        for c in ["open", "high", "low", "close", "volume"]:
-            df[c] = pd.to_numeric(df[c], errors="coerce")
+        # simple identification (your request)
+        df["symbol"] = symbol
+        df["exchange_name"] = self.exchange_id
 
-        # (optional) set index
-        df.set_index("timestamp", inplace=True)
+        # # optional: sort + dedupe (safe, still simple)
+        # df = df.drop_duplicates(subset=["timestamp"]).sort_values("timestamp").reset_index(drop=True)
 
         return df
