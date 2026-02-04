@@ -74,14 +74,20 @@ class CCXTETL:
         if not all_rows:
             raise RuntimeError(f"No OHLCV returned for {self.exchange_id} {symbol} {timeframe}")
 
-        df = pd.DataFrame(all_rows, columns=["timestamp", "open", "high", "low", "close", "volume"])
-        df["timestamp"] = pd.to_datetime(df["timestamp"], unit="ms", utc=True)
+        df = pd.DataFrame(all_rows, columns=["date", "open", "high", "low", "close", "volume"])
+        df["date"] = pd.to_datetime(df["date"], unit="ms", utc=True)
+        if timeframe == "1d":
+            df["date"]  = df["date"].dt.strftime('%Y-%m-%d')
 
         # simple identification (your request)
         df["symbol"] = symbol
         df["exchange_name"] = self.exchange_id
 
         # # optional: sort + dedupe (safe, still simple)
-        # df = df.drop_duplicates(subset=["timestamp"]).sort_values("timestamp").reset_index(drop=True)
-
+        # df = df.drop_duplicates(subset=["date"]).sort_values("date").reset_index(drop=True)
+       
+       
         return df
+
+   
+        

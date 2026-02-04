@@ -1,7 +1,7 @@
 import os
 import pandas as pd
-from sqlalchemy import create_engine, text
-from typing import Any, Dict
+from sqlalchemy import create_engine, text, insert, MetaData, Table
+from typing import Optional, Dict, Any
 from dotenv import load_dotenv
 
 # Load .env once, globally
@@ -61,11 +61,52 @@ class SQLConnector:
             return [dict(zip(columns, row)) for row in rows]
   
 
-    def read_sql_to_df(self, table_name, schema=None, **kwargs):
+    def read_sql_to_df(self, table_name, schema='public', **kwargs):
         print('Fetching SQL query to DataFrame...')
         with self.engine.connect() as connection:
             df = pd.read_sql_table(table_name, con=connection, schema=schema)
         # print(df.head(10))
         if self.manager is not None:
             self.manager.df_sql = df
+        print(df.head(10))
         return df
+
+
+    def insert_df_to_sql(self, df=None, index = False, schema='crypto', table_name='ohlcv_daily', if_exists="append", **kwargs):
+        # if df is None:
+        #     df = self.manager.df_ohlcv_wrangled
+        #     print(df.head())
+            
+            
+        # add check to ensure that the shemcma does exist , BEFORE it can write to the table 
+
+        # add check to ensure that the the column names are found
+
+        
+       
+        df.to_sql(name=table_name, schema=schema, con=self.engine, if_exists=if_exists, index=index)
+        print("Data inserted successfully.")
+
+
+
+
+    
+    # Create Method to view all shcemas
+
+    # create method to add shcemeas
+
+    # create method to remove schemas
+
+    # Create method to view all Tables
+
+    # Create method to add TAbles
+
+    # create method to remove all data from tables
+
+    # create method to remove talbes entirely 
+
+    # create mehtod to list all servesr
+
+    # create method to create new server 
+
+    # def select_sql_values(self)
