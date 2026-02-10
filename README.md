@@ -43,8 +43,9 @@ git clone https://github.com/jhanley1321/Open-SQL-DB.git
 cd Open-SQL-DB  
 
 Run the main entry point:
-
+```
 python main.py  
+```
 
 This will start the TimescaleDB Docker container, initialize the database, apply the schema, and leave the database running and ready for connections.
 
@@ -53,25 +54,30 @@ This will start the TimescaleDB Docker container, initialize the database, apply
 ## Manual Docker Usage
 
 Create a .env file in the project root with your PostgreSQL credentials:
-
+```
 POSTGRES_USER=postgres  
 POSTGRES_PASSWORD=postgres  
-POSTGRES_DB=timescaledb  
+POSTGRES_DB=timescaledb
+```
 
 Start the database on Windows:
-
+```
 run-open-sql-db.bat  
-
+```
 Stop the database:
 
+```
 docker stop timescaledb  
-docker rm timescaledb  
+docker rm timescaledb
+```
 
 Reset the database (destructive, removes all data and volumes):
 
+```
 docker stop timescaledb  
 docker rm timescaledb  
-docker volume rm timescale_data  
+docker volume rm timescale_data
+```
 
 ---
 
@@ -95,7 +101,6 @@ etl_pipeline.py      Example ETL interface (non-production)
 ohlcv_manager.py     OHLCV helpers  
 hanley.py            Utility or CLI helpers  
 main.py              Primary orchestration entry point  
-BTC_USDT.csv         Sample OHLCV data  
 run-open-sql-db.bat  Docker startup script (Windows)  
 README.md  
 
@@ -115,6 +120,9 @@ chore: maintenance
 wip: work in progress  
 
 ---
+
+
+
 
 ## Contact
 
