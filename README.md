@@ -1,98 +1,122 @@
-# Open SQL DB
-The TiemscaleDB and PostgreSQL database. 
+# Open-SQL-DB
 
+Open-SQL-DB is a container-friendly PostgreSQL + TimescaleDB database designed for storing time-series market data. It provides a reusable database backend for exchanges, tickers, asset types, and OHLCV data, intended to be consumed by external ETL pipelines, analytics systems, and ML workflows.
 
+This repository focuses strictly on database structure, schema, and lifecycle management. It is not an all-in-one ETL solution.
 
-# Running The App (Recommended) 
-You now only need to run:
-```
-python main.py 
-```
-The file will spin up the docker container for you by running the .bat file.
+---
 
-# Running The Database from the .bat file 
-First, make sure that you edit the .env file. Remove the .example at the end and add your password in the .env file before you start. 
+## Overview
 
+Open-SQL-DB is a standalone database layer built on PostgreSQL with the TimescaleDB extension. It is optimized for time-series workloads such as OHLCV candle data and is meant to act as a shared persistence layer for other projects.
 
-To run the .bat file use:
-```
-.\run-open-sql-db.bat
-```
+The goal is to provide a reproducible, containerized database that can be spun up locally or in development environments and then connected to by external services.
 
+---
 
-To Stop the container run 
-```
-docker stop timescaledb
-docker rm timescaledb
-```
+## Features
 
-For a complete fresh start run
-```
-docker stop timescaledb
-docker rm timescaledb
-docker volume rm timescale_data
-```
+- PostgreSQL with TimescaleDB
+- Optimized for time-series storage and querying
+- Schema for exchanges, tickers, asset types, and daily OHLCV data
+- Docker-based setup
+- Python entry points for orchestration and initialization
+- Sample data included for testing
 
+---
 
-# How To Use
+## Prerequisites
 
+- Docker (installed and running)
+- Python 3.8+
+- Git
+- Terminal or command prompt
+- Optional: Python virtual environment
 
-For now, you will have to manually set up your own solution if you want to use this yourself now. There will be a separate repo with a separate container for maintaining data pipelines that will handle the data into this database. Note that there may be instances where other repos will connect directly to this one as well. 
+---
 
+## Quick Start
 
-# Purpose
-This Timescale DB and PostgreSQL database will store orders, tickers, exchanges, asset types, OHLCV data, and more as we build more systems.
+Clone the repository and enter the project directory:
 
+git clone https://github.com/jhanley1321/Open-SQL-DB.git  
+cd Open-SQL-DB  
 
-# Current Features
-* Store data for exchanges, tickers, and asset type.
-* Store OHLCV daily table using Timescale DB for better performance and scalability. 
-* Docker container and .bat script for quick and easy setup.
-* SQL Connector is now included within this repo; you can now read queries here 
+Run the main entry point:
 
+python main.py  
 
+This will start the TimescaleDB Docker container, initialize the database, apply the schema, and leave the database running and ready for connections.
 
+---
 
-# Conventional Commit Types
+## Manual Docker Usage
 
-## 🔧 Core Conventional Commit Types
+Create a .env file in the project root with your PostgreSQL credentials:
 
-| Type         | Description                                                                       |
-|--------------|-----------------------------------------------------------------------------------|
-| **feat**     | A new feature                                                                     |
-| **fix**      | A bug fix                                                                         |
-| **docs**     | Documentation only changes                                                        |
-| **style**    | Changes that do not affect the meaning of the code (white-space, formatting, etc) |
-| **refactor** | A code change that neither fixes a bug nor adds a feature                         |
-| **perf**     | A code change that improves performance                                           |
-| **test**     | Adding or correcting tests                                                        |
-| **build**    | Changes that affect the build system or external dependencies (e.g., npm)         |
-| **ci**       | Changes to CI configuration files and scripts (e.g., GitHub Actions, Travis)      |
-| **chore**    | Other changes that don't modify src or test files (e.g., release notes, configs)  |
-| **revert**   | Reverts a previous commit                                                         |
+POSTGRES_USER=postgres  
+POSTGRES_PASSWORD=postgres  
+POSTGRES_DB=timescaledb  
 
-## 🧪 Extended/Optional Types
+Start the database on Windows:
 
-| Type         | Description                                                         |
-|--------------|---------------------------------------------------------------------|
-| **wip**      | Work in progress; not ready for production                          |
-| **merge**    | A merge commit                                                      |
-| **hotfix**   | A quick fix for a critical issue                                    |
-| **security** | Security-related changes                                            |
-| **deps**     | Updating or pinning dependencies                                    |
-| **infra**    | Infrastructure-related changes (e.g., Terraform, Dockerfiles)       |
-| **ux**       | Changes affecting user experience (not necessarily features)        |
-| **i18n**     | Internationalization and localization changes                       |
-| **release**  | Version bumps, changelog updates, tagging, etc.                     |
-| **env**      | Environment-related changes (e.g., `.env` files, deployment configs)|
+run-open-sql-db.bat  
 
-## 📚 Optional Scopes
+Stop the database:
 
-You can add an optional scope in parentheses to clarify what part of the app is affected.
+docker stop timescaledb  
+docker rm timescaledb  
 
-# Contact Me
+Reset the database (destructive, removes all data and volumes):
 
-If you'd like to get in touch, feel free to reach out via email or connect with me on LinkedIn:
+docker stop timescaledb  
+docker rm timescaledb  
+docker volume rm timescale_data  
 
-- **Email:** [carljames1321@gmail.com](mailto:carljames1321@gmail.com)
-- **LinkedIn:** [https://www.linkedin.com/in/jchanley/](https://www.linkedin.com/in/jchanley/)
+---
+
+## Intended Usage
+
+This repository is intended to act as a shared database backend.
+
+Typical use cases include feeding OHLCV data from ETL pipelines, powering analytics and BI dashboards, serving as a data source for ML workflows, and storing market metadata and reference data.
+
+All ingestion and business logic live outside this repository.
+
+---
+
+## Repository Structure
+
+Open-SQL-DB/  
+database/            Database initialization logic  
+docker_utility/      Docker helpers  
+sql/                 SQL schema and table definitions  
+etl_pipeline.py      Example ETL interface (non-production)  
+ohlcv_manager.py     OHLCV helpers  
+hanley.py            Utility or CLI helpers  
+main.py              Primary orchestration entry point  
+BTC_USDT.csv         Sample OHLCV data  
+run-open-sql-db.bat  Docker startup script (Windows)  
+README.md  
+
+---
+
+## Commit Message Conventions
+
+feat: new feature  
+fix: bug fix  
+docs: documentation only  
+style: formatting or whitespace changes  
+refactor: refactoring without behavior change  
+perf: performance improvements  
+test: tests  
+ci: CI/CD related changes  
+chore: maintenance  
+wip: work in progress  
+
+---
+
+## Contact
+
+Email: carljames1321@gmail.com  
+LinkedIn: https://www.linkedin.com/in/jchanley/
