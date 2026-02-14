@@ -1,4 +1,4 @@
-# Open-SQL-DB
+#Market Pipeline Service 
 
 Open-SQL-DB is a container-friendly PostgreSQL + TimescaleDB database designed for storing time-series market data. It provides a reusable database backend for exchanges, tickers, asset types, and OHLCV data, intended to be consumed by external ETL pipelines, analytics systems, and ML workflows.
 
@@ -8,7 +8,7 @@ This repository focuses strictly on database structure, schema, and lifecycle ma
 
 ## Overview
 
-Open-SQL-DB is a standalone database layer built on PostgreSQL with the TimescaleDB extension. It is optimized for time-series workloads such as OHLCV candle data and is meant to act as a shared persistence layer for other projects.
+Market-Pipeline-Service is a standalone database layer built on PostgreSQL with the TimescaleDB extension. It is optimized for time-series workloads such as OHLCV candle data and is meant to act as a shared persistence layer for other projects.
 
 The goal is to provide a reproducible, containerized database that can be spun up locally or in development environments and then connected to by external services.
 
